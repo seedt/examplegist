@@ -164,7 +164,10 @@ RETURN outcome, n
 // optional section
 == Conclusions
 
-None yet!
+Currently we have 2 examples of how to handle prices in the this gist.
+
+1. An Outcome can have multiple prices that all BELONG_TO the Outcome
+2. An Outcome can have a single price that is preceded by all the previous prices. This allows us to quickly lookup the price history in the correct order for an Outcome.
 
 // optional section
 == Resources
