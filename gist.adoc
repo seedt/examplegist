@@ -169,11 +169,7 @@ MATCH (outcome:Outcome) WHERE id(outcome) = 12345
 
 [source, cypher]
 ----
-MATCH (outcome:Outcome)<-[*]-(price:Price)
-WHERE outcome.description = 'Real Madrid'
-AND price.created > timestamp() - (60 * 1000 * 1000)
-RETURN outcome.description, collect(price),
-(reduce(r = 0, p IN collect(price) | p.value + r) / size(collect(price)))
+
 ----
 
 // optional section
