@@ -189,6 +189,8 @@ WHERE outcome.description = 'Barcelona'
 RETURN price.value AS `Current Price`
 ----
 
+//table
+
 // optional section
 == Conclusions
 
