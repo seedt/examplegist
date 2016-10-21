@@ -185,7 +185,7 @@ Currently we have 2 examples of how to handle prices in the this gist.
 1. An Outcome can have multiple prices that all BELONG_TO the Outcome
 2. An Outcome can have a single price that is preceded by all the previous prices. This allows us to quickly lookup the price history in the correct order for an Outcome.
 
-The relationships between nodes for Sport -> Event -> Market -> Outcome aren't particularly complicated, they all have a type BELONG_TO so you could keep it generic in this manner or you could reverse the relationship (as we have also done here) and create a specific Type for each relationship e.g. HAS_EVENT (Sport -> Event) or HAS_OUTCOME (Market -> Outcome). More usage is required to determine what is best, if there is a best solution? 
+The relationships between nodes for Sport -> Event -> Market -> Outcome aren't particularly complicated, they all have a type BELONG_TO so you could keep it generic in this manner or you could reverse the relationship (as we have also done here) and create a specific Type for each relationship e.g. HAS_EVENT (Sport -> Event) or HAS_OUTCOME (Market -> Outcome). More usage is required to determine what is best, if there is a best solution?
 
 // optional section
 == Resources
@@ -193,4 +193,4 @@ The relationships between nodes for Sport -> Event -> Market -> Outcome aren't p
 // optional Footer
 ---
 
-Created by {author} - https://twitter.com/{twitter}[Twitter]
+Created by {author} - https://twitter.com/{twitter}[Twitter] 
