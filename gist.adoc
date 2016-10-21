@@ -150,7 +150,7 @@ ORDER BY n.created DESC
 
 //table
 
-== Second Use Case
+== Second Use Case - Graph of Price History for an Outcome
 Graph of the price history for Real Madrid Outcome. Need to play with the relationship. The current price will always be the price attached to the Outcome node. If no prices are present then SP can be assumed.
 
 [source,cypher]
@@ -161,7 +161,7 @@ RETURN outcome, n
 
 //graph_result
 
-== Third Use Case
+== Third Use Case - Calculate Average Price for the last hour for given Outcome
 For a given Outcome show the average price over the last hour.
 In reality you would find the specific outcome using something like:
 MATCH (outcome:Outcome) WHERE id(outcome) = 12345
