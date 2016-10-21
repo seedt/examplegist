@@ -176,6 +176,16 @@ RETURN outcome.description, collect(price) AS Prices
 ----
 
 //table
+== Fourth Use Case - Find Current Price for an Outcome
+For a given Outcome find it's current price. This cypher only works if we are using the chain of prices as it is only looking for a direct relationship.
+Try changing the outcome description in the query to 'Manchester United' and see the results.
+
+[source,cypher]
+----
+MATCH (outcome:Outcome)<-[]-(price:Price)
+WHERE outcome.description = 'Barcelona'
+RETURN price.value AS `Current Price`
+----
 
 // optional section
 == Conclusions
@@ -194,4 +204,4 @@ The relationships between nodes for Sport -> Event -> Market -> Outcome aren't p
 ---
 
 
-Created by {author} - https://twitter.com/{twitter}[Twitter] 2016
+Created by {author} - https://twitter.com/{twitter}[Twitter]
