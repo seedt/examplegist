@@ -193,4 +193,5 @@ The relationships between nodes for Sport -> Event -> Market -> Outcome aren't p
 // optional Footer
 ---
 
+
 Created by {author} - https://twitter.com/{twitter}[Twitter] 2016
