@@ -148,6 +148,8 @@ RETURN n.created AS CreatedMillis, n.value AS DecimalPrice
 ORDER BY n.created DESC
 ----
 
+//table
+
 == Second Use Case
 Graph of the price history for Real Madrid Outcome. Need to play with the relationship. The current price will always be the price attached to the Outcome node. If no prices are present then SP can be assumed.
 
