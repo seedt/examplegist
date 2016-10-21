@@ -160,6 +160,7 @@ RETURN outcome, n
 ----
 
 //graph_result
+//table
 
 == Third Use Case
 For a given Outcome show the average price over the last hour.
