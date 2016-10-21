@@ -9,7 +9,7 @@
 
 == Introduction
 
-REPLACEME: Introductory text and domain model image.
+This is an example of how we may model sports betting data in a graph database.
 
 ////
 Provide an introduction to your domain and what you are trying to accomplish, link to http://a.source.com[sources] as needed.
@@ -36,66 +36,149 @@ In your setup query you can also use LOAD CSV loading CSV files from your GitHub
 //hide
 [source,cypher]
 ----
-CREATE
-  (a:Person {name: 'Alice'}),
-  (b:Person {name: 'Bob'}),
-  (c:Person {name: 'Carrie'}),
-  (d:Person {name: 'David'}),
-  (e:Person {name: 'Emily'}),
-  (a)-[:FRIENDS_WITH]->(b),
-  (a)-[:FRIENDS_WITH]->(e),
-  (b)-[:FRIENDS_WITH]->(c),
-  (b)-[:FRIENDS_WITH]->(d)
+// Sports
+CREATE (football:Sport {id: 1, description: 'Football'})
+CREATE (tennis:Sport {id: 2, description: 'Tennis'})
+CREATE (basketball:Sport {id: 3, description: 'Basketball'})
+
+// Events
+CREATE (manuChel:Event {description: 'Manchester United vs Chelsea', startTimeMillis: 1476977400000, startTime: '20-10-2016 17:30:00 GMT', venue: 'Old Trafford'})
+CREATE (realBarc:Event {description: 'Real Madrid vs Barcelona', startTimeMillis: 1476977400000, startTime: '20-10-2016 17:30:00 GMT', venue: 'Santiago Bernabéu Stadium'})
+CREATE (tottArs:Event {description: 'Tottenham Hotspurs vs Arsenal', startTimeMillis: 1476977400000, startTime: '20-10-2016 17:30:00 GMT', venue: 'White Hart Lane'})
+CREATE (andyRafa:Event {description: 'Andy Murray vs Rafa Nadal', startTimeMillis: 1476977400000, startTime: '20-10-2016 17:30:00 GMT'})
+CREATE (lakersHeat:Event {description: 'LA Lakers vs Miami Heat', startTimeMillis: 1476977400000, startTime: '20-10-2016 17:30:00 GMT'})
+
+// Event BELONGS_TO Sport
+CREATE (manuChel)-[:BELONGS_TO]->(football)
+CREATE (realBarc)-[:BELONGS_TO]->(football)
+CREATE (tottArs)-[:BELONGS_TO]->(football)
+CREATE (andyRafa)-[:BELONGS_TO]->(tennis)
+CREATE (lakersHeat)-[:BELONGS_TO]->(basketball)
+
+// OR Sport HAS_EVENT Event
+CREATE (football)-[:HAS_EVENT]->(manuChel)
+CREATE (football)-[:HAS_EVENT]->(realBarc)
+CREATE (football)-[:HAS_EVENT]->(tottArs)
+CREATE (tennis)-[:HAS_EVENT]->(andyRafa)
+CREATE (basketball)-[:HAS_EVENT]->(lakersHeat)
+
+// Markets
+CREATE (mkManuChel1x2:Market {description: '1X2', period: '90 Minutes'})
+CREATE (mkManuChelAH:Market {description: 'Asian Handicap', period: '90 Minutes'})
+CREATE (mkManuChelTG:Market {description: 'Total Goals', period: '90 Minutes'})
+CREATE (mkRealBarc1x2:Market {description: '1X2', period: '90 Minutes'})
+CREATE (mkTottArse1x2:Market {description: '1X2', period: '90 Minutes'})
+CREATE (mkAndyRafaWM:Market {description: 'Win Match', period: 'Match'})
+CREATE (mkLakersHeatWin:Market {description: 'Winner', period: 'Match'})
+
+// Market BELONGS_TO Event
+CREATE (mkManuChel1x2)-[:BELONGS_TO]->(manuChel)
+CREATE (mkManuChelAH)-[:BELONGS_TO]->(manuChel)
+CREATE (mkManuChelTG)-[:BELONGS_TO]->(manuChel)
+CREATE (mkRealBarc1x2)-[:BELONGS_TO]->(realBarc)
+CREATE (mkTottArse1x2)-[:BELONGS_TO]->(tottArs)
+CREATE (mkAndyRafaWM)-[:BELONGS_TO]->(andyRafa)
+CREATE (mkLakersHeatWin)-[:BELONGS_TO]->(lakersHeat)
+
+// OR Event HAS_MARKET
+CREATE (mkManuChel1x2)<-[:HAS_MARKET]-(manuChel)
+CREATE (mkManuChelAH)<-[:HAS_MARKET]-(manuChel)
+CREATE (mkManuChelTG)<-[:HAS_MARKET]-(manuChel)
+CREATE (mkRealBarc1x2)<-[:HAS_MARKET]-(realBarc)
+CREATE (mkTottArse1x2)<-[:HAS_MARKET]-(tottArs)
+CREATE (mkAndyRafaWM)<-[:HAS_MARKET]-(andyRafa)
+CREATE (mkLakersHeatWin)<-[:HAS_MARKET]-(lakersHeat)
+
+// Outcomes
+CREATE (outManu:Outcome {description: 'Manchester United'})
+CREATE (outDraw:Outcome {description: 'Draw'})
+CREATE (outChel:Outcome {description: 'Chelsea'})
+CREATE (outReal:Outcome {description: 'Real Madrid'})
+CREATE (outDraw2:Outcome {description: 'Draw'})
+CREATE (outBarc:Outcome {description: 'Barcelona'})
+
+// Outcome BELONGS_TO Market
+CREATE (outManu)-[:BELONGS_TO]->(mkManuChel1x2)
+CREATE (outDraw)-[:BELONGS_TO]->(mkManuChel1x2)
+CREATE (outChel)-[:BELONGS_TO]->(mkManuChel1x2)
+CREATE (outReal)-[:BELONGS_TO]->(mkRealBarc1x2)
+CREATE (outDraw2)-[:BELONGS_TO]->(mkRealBarc1x2)
+CREATE (outBarc)-[:BELONGS_TO]->(mkRealBarc1x2)
+
+// Prices
+CREATE (prcManu:Price {value: 1.2, created: timestamp()})
+CREATE (prcDraw:Price {value: 1.8, created: timestamp()})
+CREATE (prcChel:Price {value: 1.4, created: timestamp()})
+CREATE (prcManu2:Price {value: 1.1, created: timestamp() - 120000})
+CREATE (prcDraw2:Price {value: 1.75, created: timestamp() - 120000})
+CREATE (prcChel2:Price {value: 1.5, created: timestamp() -120000})
+
+// Price BELONGS_TO Outcome, CURRENT_PRICE is used as relationship instead of BELONGS_TO, not sure this is best approach
+CREATE (prcManu)-[:BELONGS_TO]->(outManu)
+CREATE (prcDraw)-[:BELONGS_TO]->(outDraw)
+CREATE (prcChel)-[:BELONGS_TO]->(outChel)
+CREATE (prcManu)-[:CURRENT_PRICE]->(outManu)
+CREATE (prcDraw)-[:CURRENT_PRICE]->(outDraw)
+CREATE (prcChel)-[:CURRENT_PRICE]->(outChel)
+CREATE (prcManu2)-[:BELONGS_TO]->(outManu)
+CREATE (prcDraw2)-[:BELONGS_TO]->(outDraw)
+CREATE (prcChel2)-[:BELONGS_TO]->(outChel)
+
+// Different way of doing Prices, chain older to the newer
+CREATE (prcReal:Price {value: 1.5, created: timestamp()})
+CREATE (prcDraw3:Price {value: 1.2, created: timestamp()})
+CREATE (prcBarc:Price {value: 1.1, created: timestamp()})
+CREATE (prcReal)-[:BELONGS_TO]->(outReal)
+CREATE (prcDraw3)-[:BELONGS_TO]->(outDraw2)
+CREATE (prcBarc)-[:BELONGS_TO]->(outBarc)
+
+// Older prices chain to new prices
+CREATE (prcReal2:Price {value: 1.6, created: timestamp() - 360000})
+CREATE (prcDraw4:Price {value: 1.1, created: timestamp() -360000})
+CREATE (prcBarc2:Price {value: 1.2, created: timestamp() - 360000})
+CREATE (prcReal2)-[:PRECEDES]->(prcReal)
+CREATE (prcDraw4)-[:PRECEDES]->(prcDraw3)
+CREATE (prcBarc2)-[:PRECEDES]->(prcBarc)
+
+CREATE (prcReal3:Price {value: 1.8, created: timestamp() - 1200000})
+CREATE (prcReal3)-[:PRECEDES]->(prcReal2)
+
 ----
 
 //graph
 
-== REPLACEME: FIRST USECASE TITLE
+== Use Case - Find Price History for an Outcome
 
-// REMOVEME: Describe what this use-case is solving and how the query represents that
-
-// REMOVEME: A Cypher query with tabular output, returning scalar values
+Given a starting Outcome find it's price history
 
 [source,cypher]
 ----
-MATCH (a:Person {name: 'Alice'})-[:FRIENDS_WITH]-(:Person)-[:FRIENDS_WITH]-(fof:Person)
-RETURN fof.name as fof, count(*) as frequency
+MATCH (outcome:Outcome {description: 'Real Madrid'})<-[*]-(n)
+RETURN n.created AS CreatedMillis, n.value AS DecimalPrice
+ORDER BY n.created DESC
 ----
 
 //table
 
-== REPLACEME: SECOND USE-CASE TITLE
-
-// REMOVEME: Describe what this use-case is solving and how the query represents that
-
-// REMOVEME: A Cypher query to with graph output
+== Second Use Case
 
 [source,cypher]
 ----
-MATCH path=(a:Person {name: 'Alice'})-[:FRIENDS_WITH]-(:Person)-[:FRIENDS_WITH]-(fof:Person)
-RETURN path, a, fof
+MATCH (outcome:Outcome {description: 'Real Madrid'})<-[*]-(n)
+RETURN outcome, n
 ----
 
 //graph_result
 
-////
-// You can also use both graph_result and then table if you return full nodes, relationships or paths
-////
-
-== REPLACEME: THIRD USE-CASE TITLE
-// REMOVEME: add as many use-cases as make sense
-
 // optional section
 == Conclusions
 
-REPLACEME: Offer a conclusion
+None yet!
 
 // optional section
 == Resources
 
-REPLACEME: Link to resorces like data sources, further discussions,
-
 // optional Footer
 ---
 
-Created by {author} - https://twitter.com/{twitter}[Twitter] | http://your.blog.com/[Blog] | https://in.linkedin.com/in/linked-in-handle/[LinkedIn]
+Created by {author} - https://twitter.com/{twitter}[Twitter]
