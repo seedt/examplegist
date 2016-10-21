@@ -18,7 +18,7 @@ Prices for an outcome will change over time based on a book maker's risk.
 
 This is an exercise to see what would be the best way to model this data in a graph database to maximise it's potential.
 
-image::http://i.imgur.com/SltmpY1.png[width=400]
+image::http://i.imgur.com/SltmpY1.png[]
 
 == Setup
 
