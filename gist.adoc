@@ -18,16 +18,9 @@ Prices for an outcome will change over time based on a book maker's risk.
 
 This is an exercise to see what would be the best way to model this data in a graph database to maximise it's potential.
 
-image::http://i.imgur.com/SltmpY1.png
+image::http://i.imgur.com/SltmpY1.png[width=400]
 
 == Setup
-
-////
-A Cypher query to setup the database
-Please use a small sample of your domain, at most 150 nodes and 200 relationships are enough for the pedagocial example.
-You can link to the setup of a larger dataset or LOAD CSV queries in a second file of your GitHub Gist at the end.
-In your setup query you can also use LOAD CSV loading CSV files from your GitHub Gist, like here: https://gist.github.com/jexp/f78df7b232d0faa171ff
-////
 
 //setup
 //hide
@@ -146,7 +139,7 @@ CREATE (prcReal3)-[:PRECEDES]->(prcReal2)
 
 == Use Case - Find Price History for an Outcome
 
-Given a starting Outcome find it's price history
+Given a starting Outcome find it's price history.
 
 [source,cypher]
 ----
@@ -158,6 +151,7 @@ ORDER BY n.created DESC
 //table
 
 == Second Use Case
+Graph of the price history for Real Madrid Outcome. Need to play with the relationship. The current price will always be the price attached to the Outcome node. If no prices are present then SP can be assumed.
 
 [source,cypher]
 ----
