@@ -135,7 +135,7 @@ CREATE (prcReal3)-[:PRECEDES]->(prcReal2)
 
 ----
 
-//graph
+//table
 
 == Use Case - Find Price History for an Outcome
 
@@ -148,7 +148,7 @@ RETURN n.created AS CreatedMillis, n.value AS DecimalPrice
 ORDER BY n.created DESC
 ----
 
-//table
+//graph
 
 == Second Use Case
 Graph of the price history for Real Madrid Outcome. Need to play with the relationship. The current price will always be the price attached to the Outcome node. If no prices are present then SP can be assumed.
