@@ -184,7 +184,7 @@ Try changing the outcome description in the query to 'Manchester United' and see
 
 [source,cypher]
 ----
-MATCH (outcome:Outcome)<-[]-(price:Price)
+MATCH (outcome:Outcome)<--(price:Price)
 WHERE outcome.description = 'Barcelona'
 RETURN price.value AS `Current Price`
 ----
