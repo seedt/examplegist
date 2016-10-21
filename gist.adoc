@@ -137,7 +137,7 @@ CREATE (prcReal3)-[:PRECEDES]->(prcReal2)
 
 //graph
 
-== Use Case - Find Price History for an Outcome
+== First Use Case - Find Price History for an Outcome
 
 Given a starting Outcome find it's price history. In a real world scenario you would probably pass the outcome id rather than looking it up by description.
 
