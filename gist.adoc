@@ -153,6 +153,8 @@ ORDER BY n.created DESC
 == Second Use Case - Graph of Price History for an Outcome
 Graph of the price history for Real Madrid Outcome. Need to play with the relationship. The current price will always be the price attached to the Outcome node. If no prices are present then SP can be assumed.
 
+Note, I am not sure why the node for the price displays the created property. Running this on my local neo4j it displays the value of the price.
+
 [source,cypher]
 ----
 MATCH (outcome:Outcome {description: 'Real Madrid'})<-[*]-(n)
