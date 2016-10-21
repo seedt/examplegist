@@ -106,12 +106,12 @@ CREATE (outDraw2)-[:BELONGS_TO]->(mkRealBarc1x2)
 CREATE (outBarc)-[:BELONGS_TO]->(mkRealBarc1x2)
 
 // Prices
-CREATE (prcManu:Price {value: 1.2, created: timestamp()})
-CREATE (prcDraw:Price {value: 1.8, created: timestamp()})
-CREATE (prcChel:Price {value: 1.4, created: timestamp()})
-CREATE (prcManu2:Price {value: 1.1, created: timestamp() - 120000})
-CREATE (prcDraw2:Price {value: 1.75, created: timestamp() - 120000})
-CREATE (prcChel2:Price {value: 1.5, created: timestamp() -120000})
+CREATE (prcManu:Price {created: timestamp(),value: 1.2})
+CREATE (prcDraw:Price {created: timestamp(), value: 1.8})
+CREATE (prcChel:Price {created: timestamp(), value: 1.4})
+CREATE (prcManu2:Price {created: timestamp() - 120000, value: 1.1})
+CREATE (prcDraw2:Price {created: timestamp() - 120000, value: 1.75})
+CREATE (prcChel2:Price {created: timestamp() -120000, value: 1.5})
 
 // Price BELONGS_TO Outcome, CURRENT_PRICE is used as relationship instead of BELONGS_TO, not sure this is best approach
 CREATE (prcManu)-[:BELONGS_TO]->(outManu)
@@ -125,17 +125,17 @@ CREATE (prcDraw2)-[:BELONGS_TO]->(outDraw)
 CREATE (prcChel2)-[:BELONGS_TO]->(outChel)
 
 // Different way of doing Prices, chain older to the newer
-CREATE (prcReal:Price {value: 1.5, created: timestamp()})
-CREATE (prcDraw3:Price {value: 1.2, created: timestamp()})
-CREATE (prcBarc:Price {value: 1.1, created: timestamp()})
+CREATE (prcReal:Price {created: timestamp(), value: 1.5})
+CREATE (prcDraw3:Price {created: timestamp(), value: 1.2})
+CREATE (prcBarc:Price {created: timestamp(), value: 1.1})
 CREATE (prcReal)-[:BELONGS_TO]->(outReal)
 CREATE (prcDraw3)-[:BELONGS_TO]->(outDraw2)
 CREATE (prcBarc)-[:BELONGS_TO]->(outBarc)
 
 // Older prices chain to new prices
-CREATE (prcReal2:Price {value: 1.6, created: timestamp() - 360000})
-CREATE (prcDraw4:Price {value: 1.1, created: timestamp() -360000})
-CREATE (prcBarc2:Price {value: 1.2, created: timestamp() - 360000})
+CREATE (prcReal2:Price {created: timestamp() - 360000, value: 1.6})
+CREATE (prcDraw4:Price {created: timestamp() -360000,value: 1.1})
+CREATE (prcBarc2:Price {created: timestamp() - 360000, value: 1.2})
 CREATE (prcReal2)-[:PRECEDES]->(prcReal)
 CREATE (prcDraw4)-[:PRECEDES]->(prcDraw3)
 CREATE (prcBarc2)-[:PRECEDES]->(prcBarc)
