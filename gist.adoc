@@ -144,7 +144,7 @@ Given a starting Outcome find it's price history. In a real world scenario you w
 [source,cypher]
 ----
 MATCH (outcome:Outcome {description: 'Real Madrid'})<-[*]-(n)
-RETURN n.created AS CreatedMillis, n.value AS DecimalPrice
+RETURN n.created AS `Created Millis`, n.value AS DecimalPrice
 ORDER BY n.created DESC
 ----
 
