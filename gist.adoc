@@ -140,7 +140,7 @@ CREATE (prcReal3)-[:PRECEDES]->(prcReal2)
 == First Use Case - Find Price History for an Outcome
 
 Given a starting Outcome find it's price history. In a real world scenario you would probably pass the outcome id rather than looking it up by description.
-
+Note that for convenience we use the timestamp() function to set the price creation time. In reality this value would probably be set by some other process so could be in a more readable format.
 [source,cypher]
 ----
 MATCH (outcome:Outcome {description: 'Real Madrid'})<-[*]-(n)
@@ -161,6 +161,20 @@ RETURN outcome, n
 ----
 
 //graph_result
+
+== Third Use Case
+For a given Outcome show me the average price over the last hour.
+In reality you would find the specific outcome using something like:
+MATCH (outcome:Outcome) WHERE id(outcome) = 12345
+
+[source, cypher]
+----
+MATCH (outcome:Outcome)<-[*]-(price:Price)
+WHERE outcome.description = 'Real Madrid'
+AND price.created > timestamp() - (60 * 1000 * 1000)
+RETURN outcome.description, collect(price),
+(reduce(r = 0, p IN collect(price) | p.value + r) / size(collect(price)))
+----
 
 // optional section
 == Conclusions
